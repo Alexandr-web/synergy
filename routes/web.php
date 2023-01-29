@@ -14,5 +14,8 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::view('/auth', 'auth');
+Route::view('/auth/registration', 'auth.registration');
+Route::view('/auth/login', 'auth.login');
+
 Route::post('/auth/registration', [AuthController::class, 'registraiton']);
+Route::post('/auth/login', [AuthController::class, 'login']);

@@ -9,13 +9,20 @@
     const reqData = {
       method: "POST",
       body: new FormData(form),
-      uri: "auth/registration",
+      uri: "auth/login",
+      success(res) {
+        new Cookie().set("token", res.token);
+
+        location.push("/");
+      },
+      failure(err) {
+        console.log(err);
+      },
       headers: {
         "Accept-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRF-TOKEN": metaToken.content,
       },
-      success: () => location.push("/auth/login"),
     };
     const { method, body, headers, uri, success, } = reqData;
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
+use ReallySimpleJWT\Token;
 
 class AuthController extends Controller
 {
@@ -35,28 +36,62 @@ class AuthController extends Controller
                 'sex.required' => 'Пол является обязательным для заполнения',
                 'passport-series.required' => 'Серия паспорта является обязательной для заполнения',
                 'passport-series.max' => 'Серия паспорта должна содержать 4 символа',
+                'passport-series.min' => 'Серия паспорта должна содержать 4 символа',
                 'passport-number.required' => 'Номер паспорта является обязательным для заполнения',
                 'passport-number.max' => 'Номер паспорта должен содержать 6 символов',
+                'passport-number.min' => 'Номер паспорта должен содержать 6 символов',
                 'password.required' => 'Пароль является обязательным для заполнения',
                 'password.min' => 'Пароль должен содержать минимум 6 символов'
-              ]
+            ]
         );
 
-        $hashPassword = Hash::make($_POST['password'], ['rounds' => 12]);
+        $hashPassword = Hash::make($req->input('password'), ['rounds' => 12]);
         $userData = array_merge($req->input(), ['password' => $hashPassword]);
         
         $equalUser = Student::where([
             'email' => $userData['email'],
             'passport-series' => $userData['passport-series'],
             'passport-number' => $userData['passport-number'],
-        ])->get();
+        ])->first();
 
-        if ($equalUser->count() > 0) {
-            return json_encode(['message' => 'Такой пользователь уже существует!', 'status' => 409]);
+        if ($equalUser) {
+            return response(['message' => 'Такой пользователь уже существует!', 'status' => 409], 409)->header('Content-Type', 'application/json');
         }
 
         Student::create($userData);
 
-        return json_encode(['message' => 'Студент создан', 'status' => 200]);
+        return response(['message' => 'Студент создан', 'status' => 200], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function login(Request $req) {
+        $req->validate(
+            [
+                'email' => 'required | max: 40',
+                'password' => 'required | min: 6'
+            ],
+            [
+                'email.required' => 'Эл. почта является обязательной для заполнения',
+                'password.required' => 'Пароль является обязательным для заполнения',
+                'password.min' => 'Пароль должен содержать минимум 6 символов'
+            ]
+        );
+
+        $findUser = Student::where(['email' => $req->input('email')])->first();
+
+        if (!$findUser) {
+            return response(['message' => 'Такого пользователя не существует', 'status' => 404])->header('Content-Type', 'application/json');
+        }
+
+        if (!Hash::check($req->input('password'), $findUser->password)) {
+            return response(['message' => 'Неверный пароль', 'status' => 422])->header('Content-Type', 'application/json');
+        }
+
+        $secret = env('SECRET');
+        $userId = $findUser->id;
+        $expiration = time() + 3600;
+        $issuer = env('HOST');
+        $token = Token::create($userId, $secret, $expiration, $issuer);
+
+        return response(['message' => 'Вход прошел успешно', 'status' => 200, 'token' => $token])->header('Content-Type', 'application/json');
     }
 }
