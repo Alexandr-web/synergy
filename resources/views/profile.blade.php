@@ -10,7 +10,8 @@
   <title>Профиль | {{ $user->firstname.' '.$user->lastname }}</title>
 </head>
 <body>
-  <div class="container">
+  <x-header activePage="profile" />
+  <div class="container pt-5">
     <div class="d-flex">
       <div class="col">
         <div class="col d-flex flex-column">
@@ -22,7 +23,7 @@
           <x-navbar-profile activeTab="{{ CURRENT_TAB }}" />
         </div>
       </div>
-     <div class="col-9">
+     <div class="col-9 px-3">
         @switch(CURRENT_TAB)
             @case('info')
                 <x-profile-info-tab />
