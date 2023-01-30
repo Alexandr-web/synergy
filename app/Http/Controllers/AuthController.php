@@ -14,15 +14,15 @@ class AuthController extends Controller
     public function registraiton(Request $req) {
         $req->validate(
             [
-                'email' => 'required | max: 40',
-                'lastname' => 'required | min: 3',
-                'firstname' => 'required | min: 3',
-                'surname' => 'required | min: 3',
-                'birth-date' => 'required',
-                'sex' => 'required',
-                'passport-series' => 'required | max: 4 | min: 4',
-                'passport-number' => 'required | max: 6 | min: 6',
-                'password' => 'required | min: 6'
+                'email' => ['required', 'max: 40'],
+                'lastname' => ['required', 'min: 3'],
+                'firstname' => ['required', 'min: 3'],
+                'surname' => ['required', 'min: 3'],
+                'birth-date' => ['required'],
+                'sex' => ['required'],
+                'passport-series' => ['required', 'max: 4', 'min: 4'],
+                'passport-number' => ['required', 'max: 6', 'min: 6'],
+                'password' => ['required', 'min: 6']
             ],
             [
                 'email.required' => 'Эл. почта является обязательной для заполнения',
@@ -55,19 +55,21 @@ class AuthController extends Controller
         ])->first();
 
         if ($equalUser) {
-            return response(['message' => 'Такой пользователь уже существует!', 'status' => 409], 409)->header('Content-Type', 'application/json');
+            return response(['message' => 'Такой пользователь уже существует!', 'status' => 409], 409)
+                ->header('Content-Type', 'application/json');
         }
 
         Student::create($userData);
 
-        return response(['message' => 'Студент создан', 'status' => 200], 200)->header('Content-Type', 'application/json');
+        return response(['message' => 'Студент создан', 'status' => 200], 200)
+            ->header('Content-Type', 'application/json');
     }
 
     public function login(Request $req) {
         $req->validate(
             [
-                'email' => 'required | max: 40',
-                'password' => 'required | min: 6'
+                'email' => ['required', 'max: 40'],
+                'password' => ['required', 'min: 6']
             ],
             [
                 'email.required' => 'Эл. почта является обязательной для заполнения',
@@ -79,11 +81,15 @@ class AuthController extends Controller
         $findUser = Student::where(['email' => $req->input('email')])->first();
 
         if (!$findUser) {
-            return response(['message' => 'Такого пользователя не существует', 'status' => 404])->header('Content-Type', 'application/json');
+            return response(['message' => 'Такого пользователя не существует', 'status' => 404], 404)
+                ->header('Content-Type', 'application/json');
         }
 
-        if (!Hash::check($req->input('password'), $findUser->password)) {
-            return response(['message' => 'Неверный пароль', 'status' => 422])->header('Content-Type', 'application/json');
+        $passwordIsValid = Hash::check($req->input('password'), $findUser->password);
+
+        if (!$passwordIsValid) {
+            return response(['message' => 'Неверный пароль', 'status' => 422], 422)
+                ->header('Content-Type', 'application/json');
         }
 
         $secret = env('SECRET');
@@ -92,6 +98,7 @@ class AuthController extends Controller
         $issuer = env('HOST');
         $token = Token::create($userId, $secret, $expiration, $issuer);
 
-        return response(['message' => 'Вход прошел успешно', 'status' => 200, 'token' => $token])->header('Content-Type', 'application/json');
+        return response(['message' => 'Вход прошел успешно', 'status' => 200, 'token' => $token], 200)
+            ->header('Content-Type', 'application/json');
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,7 @@ Route::view('/auth/login', 'auth.login');
 
 Route::post('/auth/registration', [AuthController::class, 'registraiton']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::view('/', 'index');
+
+Route::get('/profile/{id}', [UserController::class, 'profileRender'])->middleware('tab');
