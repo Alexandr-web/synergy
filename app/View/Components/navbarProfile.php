@@ -6,17 +6,20 @@ use Illuminate\View\Component;
 
 class navbarProfile extends Component
 {
-    public $activeTab = "";
+    public string $activeTab = "";
+    public string $userId = "";
 
     /**
      * Create a new component instance.
      *  
      * @param string $activeTab активная вкладка
+     * @param integer $userId id пользователя
      * @return void
      */
-    public function __construct(string $activeTab)
+    public function __construct(string $activeTab, string $userId)
     {
         $this->activeTab = $activeTab;
+        $this->userId = $userId;
     }
 
     /**

@@ -49,7 +49,6 @@ class Form {
         this.btnText.show();
         this.btnText.setText(data.message);
 
-        // Обработка ошибок
         if (data.errors) {
           this._handlerErrors(data.errors);
         }

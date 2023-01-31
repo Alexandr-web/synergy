@@ -6,16 +6,25 @@ use ReallySimpleJWT\Decode;
 use ReallySimpleJWT\Jwt;
 
 class AuthToken {
-  public function get() {
+  static function get() {
+    if (!array_key_exists('token', $_COOKIE)) {
+      return '';
+    }
+
     return $_COOKIE['token'];
   }
 
-  static function decode() {
-    $token = $_COOKIE['token'];
+  static function getUserId() {
+    $token = static::get();
+
+    if (!$token) {
+      return '';
+    }
+
     $jwt = new Jwt($token);
     $parse = new Parse($jwt, new Decode());
     $parsed = $parse->parse();
 
-    return $parsed->getPayload();
+    return $parsed->getPayload()['user_id'];
   }
 }

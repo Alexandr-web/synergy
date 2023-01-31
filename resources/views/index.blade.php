@@ -9,7 +9,7 @@
 </head>
 <body>
   <x-header activePage="home" />
-  <div class="container pt-5">
+  <div class="container">
     <h1>Добро пожаловать!</h1>
   </div>
 </body>

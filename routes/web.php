@@ -4,23 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Auth
+Route::prefix('auth')->group(function() {
+  Route::view('/registration', 'auth.registration')
+    ->middleware('redirectUserIfAuthenticated');
+  Route::view('/login', 'auth.login')
+    ->middleware('redirectUserIfAuthenticated');
+  
+  Route::post('/registration', [AuthController::class, 'registraiton']);
+  Route::post('/login', [AuthController::class, 'login']);
+});
 
-Route::view('/auth/registration', 'auth.registration');
-Route::view('/auth/login', 'auth.login');
+// Profile
+Route::get('/profile/{id}', [UserController::class, 'profileRender'])
+  ->where('id', '[0-9]+')
+  ->middleware(['redirectUserIfNotAuthenticated', 'tab']);
 
-Route::post('/auth/registration', [AuthController::class, 'registraiton']);
-Route::post('/auth/login', [AuthController::class, 'login']);
-
-Route::view('/', 'index');
-
-Route::get('/profile/{id}', [UserController::class, 'profileRender'])->middleware('tab');
+// Home
+Route::view('/', 'index')
+  ->middleware('redirectUserIfNotAuthenticated');

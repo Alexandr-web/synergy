@@ -11,7 +11,7 @@
 </head>
 <body>
   <x-header activePage="profile" />
-  <div class="container pt-5">
+  <div class="container">
     <div class="d-flex">
       <div class="col">
         <div class="col d-flex flex-column">
@@ -20,7 +20,7 @@
           <h5>{{ $user->email }}</h5>
         </div>
         <div class="col mt-2">
-          <x-navbar-profile activeTab="{{ CURRENT_TAB }}" />
+          <x-navbar-profile activeTab="{{ CURRENT_TAB }}" userId="{{ $user['id'] }}" />
         </div>
       </div>
      <div class="col-9 px-3">

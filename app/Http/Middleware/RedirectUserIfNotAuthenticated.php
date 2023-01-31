@@ -4,8 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Helpers\AuthToken;
 
-class CheckTab
+class RedirectUserIfNotAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,11 +18,11 @@ class CheckTab
      */
     public function handle(Request $request, Closure $next)
     {
-        $userId = $request->id;
-        $queryTab = $request->query('tab');
+        $userId = AuthToken::getUserId();
+        $findUserById = is_int($userId) ? Student::find($userId)->first() : null;
 
-        if (!$queryTab) {
-            return redirect("/profile/$userId/?tab=info");
+        if (!$findUserById) {
+            return redirect('/auth/login');
         }
 
         return $next($request);
