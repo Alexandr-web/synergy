@@ -26,7 +26,7 @@
      <div class="col-9 px-3">
         @switch(CURRENT_TAB)
             @case('info')
-                <x-profile-info-tab />
+                <x-profile-info-tab :user="$user" />
                 @break
             @case('edit')
                 <x-profile-edit-tab />
