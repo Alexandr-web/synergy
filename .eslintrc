@@ -82,6 +82,7 @@
     "func-names": "off",
     "no-case-declarations": "off",
     "camelcase": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-new": "off"
   }
 }

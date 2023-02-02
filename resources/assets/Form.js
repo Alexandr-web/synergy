@@ -1,3 +1,5 @@
+import Element from "./Element";
+
 class Form {
   constructor(selectorForm = ".js-form", selectorErrors = ".js-error", selectorBtnText = ".js-btn-text", selectorSpinner = ".js-btn-spinner", selectorInputs = ".js-input") {
     this.form = document.querySelector(selectorForm);
@@ -65,3 +67,5 @@ class Form {
       });
   }
 }
+
+export default Form;

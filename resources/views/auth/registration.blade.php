@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @include('./includes/bootstrap')
+  @vite(['resources/assets/auth/registration.js'])
   <title>Регистрация</title>
 </head>
 <body>
@@ -89,13 +90,10 @@
           <span class="sr-only js-btn-text">Зарегистрироваться</span>
         </button>
       </div>
+      <div class="d-flex justify-content-center mt-2">
+        <p>Уже есть аккаунт? <a href="/auth/login">Войти</a></p>
+      </div>
     </form>
   </div>
-  <script src="/js/Location.js"></script>
-  <script src="/js/Element.js"></script>
-  <script src="/js/Form.js"></script>
-  <script src="/js/PasswordGenerate.js"></script>
-  <script src="/js/auth/registration.js"></script>
-  <script src="/js/auth/generatePassword.js"></script>
 </body>
 </html>

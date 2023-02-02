@@ -14,6 +14,18 @@ class AuthToken {
     return $_COOKIE['token'];
   }
 
+  static function decode(string $token) {
+    if (!$token) {
+      return null;
+    }
+
+    $jwt = new Jwt($token);
+    $parse = new Parse($jwt, new Decode());
+    $parsed = $parse->parse();
+
+    return $parsed->getPayload();
+  }
+
   static function getUserId() {
     $token = static::get();
 

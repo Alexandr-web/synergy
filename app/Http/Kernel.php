@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'tab' => \App\Http\Middleware\CheckTab::class,
         'redirectUserIfNotAuthenticated' => \App\Http\Middleware\RedirectUserIfNotAuthenticated::class,
         'redirectUserIfAuthenticated' => \App\Http\Middleware\RedirectUserIfAuthenticated::class,
+        'checkAuthToken' => \App\Http\Middleware\CheckAuthToken::class,
     ];
 }

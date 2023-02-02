@@ -19,9 +19,8 @@ class RedirectUserIfNotAuthenticated
     public function handle(Request $request, Closure $next)
     {
         $userId = AuthToken::getUserId();
-        $findUserById = is_int($userId) ? Student::find($userId)->first() : null;
 
-        if (!$findUserById) {
+        if (!$userId) {
             return redirect('/auth/login');
         }
 

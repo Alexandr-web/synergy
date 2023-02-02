@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Helpers\AuthToken;
 use App\Models\Student;
+use App\Helpers\AuthToken;
 
-class RedirectUserIfAuthenticated
+class CheckAuthToken
 {
     /**
      * Handle an incoming request.
@@ -18,10 +18,16 @@ class RedirectUserIfAuthenticated
      */
     public function handle(Request $request, Closure $next)
     {
-        $userId = AuthToken::getUserId();
+        $authHeader = $request->header('Authorization') ?? '';
+        $token = str_replace('Bearer ', '', $authHeader);
+        $tokenData = AuthToken::decode($token);
 
-        if ($userId) {
-            return redirect('/');
+        if ($tokenData) {
+            $userId = $tokenData['user_id'];
+            $findUser = Student::find($userId);
+
+            $request->isAuthenticated = (bool) $findUser;
+            $request->user = $findUser;
         }
 
         return $next($request);

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('surname');
+            $table->string('telegram-url')->default('');
+            $table->string('stackoverflow-url')->default('');
+            $table->string('github-url')->default('');
             $table->string('birth-date');
             $table->string('sex');
             $table->integer('passport-series');

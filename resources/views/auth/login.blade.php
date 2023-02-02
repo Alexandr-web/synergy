@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @include('./includes/bootstrap')
+  @vite(['resources/assets/auth/login.js'])
   <title>Вход</title>
 </head>
 <body>
-  <div class="container w-50">
+  <div class="container w-25">
     <h1 class="text-center">Вход</h1>
     <form class="js-form">
       <div class="form-group">
@@ -28,12 +29,10 @@
           <span class="sr-only js-btn-text">Войти</span>
         </button>
       </div>
+      <div class="d-flex justify-content-center mt-2">
+        <p>Нет аккаунта? <a href="/auth/registration">Зарегистрироваться</a></p>
+      </div>
     </form>
   </div>
-  <script src="/js/Location.js"></script>
-  <script src="/js/Element.js"></script>
-  <script src="/js/Cookie.js"></script>
-  <script src="/js/Form.js"></script>
-  <script src="/js/auth/login.js"></script>
 </body>
 </html>

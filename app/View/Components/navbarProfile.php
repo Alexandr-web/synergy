@@ -8,18 +8,21 @@ class navbarProfile extends Component
 {
     public string $activeTab = "";
     public string $userId = "";
+    public bool $isGuest = true;
 
     /**
      * Create a new component instance.
      *  
      * @param string $activeTab активная вкладка
-     * @param integer $userId id пользователя
+     * @param string $userId id пользователя
+     * @param bool $isGuest пользователь является гостем
      * @return void
      */
-    public function __construct(string $activeTab, string $userId)
+    public function __construct(string $activeTab, string $userId, bool $isGuest)
     {
         $this->activeTab = $activeTab;
         $this->userId = $userId;
+        $this->isGuest = $isGuest;
     }
 
     /**

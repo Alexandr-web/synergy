@@ -1,3 +1,5 @@
+import PasswordGenerate from "../PasswordGenerate";
+
 (function () {
   const btn = document.querySelector(".js-btn-generate-password");
   const input = document.querySelector(".js-input-password");

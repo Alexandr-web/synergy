@@ -6,14 +6,16 @@ use Illuminate\View\Component;
 
 class profileDeleteTab extends Component
 {
+    public $user = [];
     /**
      * Create a new component instance.
      *
+     * @param $user данные пользователя
      * @return void
      */
-    public function __construct()
+    public function __construct(object $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**

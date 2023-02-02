@@ -29,3 +29,5 @@ class Element {
     return this.element;
   }
 }
+
+export default Element;

@@ -25,3 +25,5 @@ class PasswordGenerate {
     return res;
   }
 }
+
+export default PasswordGenerate;

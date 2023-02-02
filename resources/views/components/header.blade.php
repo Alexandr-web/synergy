@@ -9,7 +9,7 @@
     ];
 ?>
 
-<header class="d-flex justify-content-center py-3">
+<header class="d-flex justify-content-center py-2">
     <ul class="nav nav-pills">
         @foreach ($navList as $key => $pageData)
             @if ($pageData['show'])
