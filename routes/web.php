@@ -29,7 +29,7 @@ Route::view('/logout', 'logout')
 Route::prefix('api')->group(function () {
   Route::get('/profile/{id}', [UserController::class, 'getOne'])
     ->where('id', '[0-9]+');
-  Route::put('/profile/{id}/edit', [UserController::class, 'edit'])
+  Route::put('/profile/{id}/edit', [UserController::class, 'editOne'])
     ->where('id', '[0-9]+')
     ->middleware('checkAuthToken');
   Route::delete('/profile/{id}/delete', [UserController::class, 'deleteOne'])

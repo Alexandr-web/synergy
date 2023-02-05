@@ -1,12 +1,14 @@
 import Location from "../Location";
 import Cookie from "../Cookie";
 import Form from "../Form";
-import "./generatePassword";
+import passwordGenerate from "../helpers/passwordGenerateInDOM";
 
 (function () {
   const form = document.querySelector(".js-form");
 
   if (form) {
+    passwordGenerate();
+
     const metaToken = document.querySelector("meta[name=csrf-token]");
     const location = new Location();
     const inputs = document.querySelectorAll(".js-input");

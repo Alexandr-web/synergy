@@ -8,40 +8,42 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use ReallySimpleJWT\Token;
+use App\Helpers\DataRules;
 
 class AuthController extends Controller
 {
     public function registraiton(Request $req) {
         $req->validate(
             [
-                'email' => ['required', 'max: 40'],
-                'lastname' => ['required', 'min: 3'],
-                'firstname' => ['required', 'min: 3'],
-                'surname' => ['required', 'min: 3'],
-                'birth-date' => ['required'],
-                'sex' => ['required'],
-                'passport-series' => ['required', 'max: 4', 'min: 4'],
-                'passport-number' => ['required', 'max: 6', 'min: 6'],
-                'password' => ['required', 'min: 6']
+                'email' => DataRules::EMAIL['required'],
+                'lastname' => DataRules::LASTNAME['required'],
+                'firstname' => DataRules::FIRSTNAME['required'],
+                'surname' => DataRules::SURNAME['required'],
+                'birth-date' => DataRules::BIRTH_DATE['required'],
+                'sex' => DataRules::SEX['required'],
+                'passport-series' => DataRules::PASSPORT_SERIES['required'],
+                'passport-number' => DataRules::PASSPORT_NUMBER['required'],
+                'password' => DataRules::PASSWORD['required'],
             ],
             [
-                'email.required' => 'Эл. почта является обязательной для заполнения',
-                'lastname.required' => 'Фамилия является обязательной для заполнения',
-                'lastname.min' => 'Фамилия должна иметь минимум 3 символа',
-                'firstname.required' => 'Имя является обязательным для заполнения',
-                'firstname.min' => 'Имя должно иметь минимум 3 символа',
-                'surname.required' => 'Отчество должно иметь минимум 3 символа',
-                'surname.min' => 'Отчество должно иметь минимум 3 символа',
-                'birth-date.required' => 'Дата рождения является обязательной для заполнения',
-                'sex.required' => 'Пол является обязательным для заполнения',
-                'passport-series.required' => 'Серия паспорта является обязательной для заполнения',
-                'passport-series.max' => 'Серия паспорта должна содержать 4 символа',
-                'passport-series.min' => 'Серия паспорта должна содержать 4 символа',
-                'passport-number.required' => 'Номер паспорта является обязательным для заполнения',
-                'passport-number.max' => 'Номер паспорта должен содержать 6 символов',
-                'passport-number.min' => 'Номер паспорта должен содержать 6 символов',
-                'password.required' => 'Пароль является обязательным для заполнения',
-                'password.min' => 'Пароль должен содержать минимум 6 символов'
+                'email.required' => DataRules::EMAIL['errors']['required'],
+                'email.max' => DataRules::EMAIL['errors']['max'],
+                'lastname.required' => DataRules::LASTNAME['errors']['required'],
+                'lastname.min' => DataRules::LASTNAME['errors']['min'],
+                'firstname.required' => DataRules::FIRSTNAME['errors']['required'],
+                'firstname.min' => DataRules::FIRSTNAME['errors']['min'],
+                'surname.required' => DataRules::SURNAME['errors']['required'],
+                'surname.min' => DataRules::SURNAME['errors']['min'],
+                'birth-date.required' => DataRules::BIRTH_DATE['errors']['required'],
+                'sex.required' => DataRules::SEX['errors']['required'],
+                'passport-series.required' => DataRules::PASSPORT_SERIES['errors']['required'],
+                'passport-series.max' => DataRules::PASSPORT_SERIES['errors']['max'],
+                'passport-series.min' => DataRules::PASSPORT_SERIES['errors']['min'],
+                'passport-number.required' => DataRules::PASSPORT_NUMBER['errors']['required'],
+                'passport-number.max' => DataRules::PASSPORT_NUMBER['errors']['max'],
+                'passport-number.min' => DataRules::PASSPORT_NUMBER['errors']['min'],
+                'password.required' => DataRules::PASSWORD['errors']['required'],
+                'password.min' => DataRules::PASSWORD['errors']['min'],
             ]
         );
 

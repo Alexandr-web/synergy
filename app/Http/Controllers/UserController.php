@@ -7,6 +7,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\AuthToken;
+use App\Helpers\DataRules;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
         return view('profile', ['user' => $findStudent, 'isGuest' => $isGuest]);
     }
 
-    public function edit(Request $req, string $id) {
+    public function editOne(Request $req, string $id) {
         if (!$req->isAuthenticated) {
             return response(['message' => 'Для выполнения следующей операции необходимо авторизоваться', 'status' => 401], 401)
                 ->header('Content-Type', 'application/json');
@@ -38,29 +39,34 @@ class UserController extends Controller
 
         $req->validate(
             [
-                'email' => ['max: 40'],
-                'stackoverflow-url' => ['nullable', 'url'],
-                'github-url' => ['nullable', 'url'],
-                'telegram-url' => ['nullable', 'url'],
-                'lastname' => ['min: 3'],
-                'firstname' => ['min: 3'],
-                'surname' => ['min: 3'],
-                'passport-series' => ['max: 4', 'min: 4'],
-                'passport-number' => ['max: 6', 'min: 6'],
-                'password' => ['nullable', 'min: 6'],
+                'email' => DataRules::EMAIL['optional'],
+                'stackoverflow-url' => DataRules::URL['optional'],
+                'github-url' => DataRules::URL['optional'],
+                'telegram-url' => DataRules::URL['optional'],
+                'lastname' => DataRules::LASTNAME['optional'],
+                'firstname' => DataRules::FIRSTNAME['optional'],
+                'surname' => DataRules::SURNAME['optional'],
+                'passport-series' => DataRules::PASSPORT_SERIES['optional'],
+                'passport-number' => DataRules::PASSPORT_NUMBER['optional'],
+                'password' => DataRules::PASSWORD['optional'],
+                'birth-date' => DataRules::BIRTH_DATE['required'],
+                'sex' => DataRules::SEX['required'],
             ],
             [
-                'telegram-url.url' => 'Это поле должно иметь ссылку на ресурс',
-                'github-url.url' => 'Это поле должно иметь ссылку на ресурс',
-                'stackoverflow-url.url' => 'Это поле должно иметь ссылку на ресурс',
-                'lastname.min' => 'Фамилия должна иметь минимум 3 символа',
-                'firstname.min' => 'Имя должно иметь минимум 3 символа',
-                'surname.min' => 'Отчество должно иметь минимум 3 символа',
-                'passport-series.max' => 'Серия паспорта должна содержать 4 символа',
-                'passport-series.min' => 'Серия паспорта должна содержать 4 символа',
-                'passport-number.max' => 'Номер паспорта должен содержать 6 символов',
-                'passport-number.min' => 'Номер паспорта должен содержать 6 символов',
-                'password.min' => 'Пароль должен содержать минимум 6 символов'
+                'email.max' => DataRules::EMAIL['errors']['max'],
+                'telegram-url.url' => DataRules::URL['errors']['url'],
+                'github-url.url' => DataRules::URL['errors']['url'],
+                'stackoverflow-url.url' => DataRules::URL['errors']['url'],
+                'lastname.min' => DataRules::LASTNAME['errors']['min'],
+                'firstname.min' => DataRules::FIRSTNAME['errors']['min'],
+                'surname.min' => DataRules::SURNAME['errors']['min'],
+                'passport-series.max' => DataRules::PASSPORT_SERIES['errors']['max'],
+                'passport-series.min' => DataRules::PASSPORT_SERIES['errors']['min'],
+                'passport-number.max' => DataRules::PASSPORT_NUMBER['errors']['max'],
+                'passport-number.min' => DataRules::PASSPORT_NUMBER['errors']['min'],
+                'password.min' => DataRules::PASSWORD['errors']['min'],
+                'birth-date' => DataRules::BIRTH_DATE['errors']['required'],
+                'sex' => DataRules::SEX['errors']['required'],
             ]
         );
 

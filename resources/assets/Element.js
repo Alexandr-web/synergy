@@ -14,7 +14,11 @@ class Element {
   }
 
   setText(text = "") {
-    this.element.textContent = text;
+    if (this.element.value !== undefined) {
+      this.element.value = text;
+    } else {
+      this.element.textContent = text;
+    }
   }
 
   removeClass(className = "") {

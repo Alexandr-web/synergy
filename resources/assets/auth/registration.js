@@ -1,6 +1,8 @@
 import Location from "../Location";
 import Form from "../Form";
-import "./generatePassword";
+import passwordGenerate from "../helpers/passwordGenerateInDOM";
+
+passwordGenerate(true);
 
 (function () {
   const form = document.querySelector(".js-form");

@@ -5,7 +5,7 @@
         ['value' => $user['firstname'], 'title' => 'Имя'],
         ['value' => $user['surname'], 'title' => 'Отчество'],
         ['value' => $user['birth-date'], 'title' => 'Дата рождения'],
-        ['value' => $user['sex'], 'title' => 'Пол'],
+        ['value' => $user['sex'] === 'man' ? 'Мужской' : 'Женский', 'title' => 'Пол'],
     ];
 
     $social = [
