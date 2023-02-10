@@ -2,6 +2,7 @@ import Location from "../Location";
 import Cookie from "../Cookie";
 import Form from "../Form";
 
+// Отправляет запрос на авторизацию пользователя
 (function () {
   const form = document.querySelector(".js-form");
   const metaToken = document.querySelector("meta[name=csrf-token]");

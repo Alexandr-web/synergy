@@ -4,6 +4,7 @@ import passwordGenerate from "../helpers/passwordGenerateInDOM";
 
 passwordGenerate(true);
 
+// Отправляет запрос на авторизацию пользователя
 (function () {
   const form = document.querySelector(".js-form");
   const metaToken = document.querySelector("meta[name=csrf-token]");

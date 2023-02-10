@@ -6,6 +6,10 @@ use ReallySimpleJWT\Decode;
 use ReallySimpleJWT\Jwt;
 
 class AuthToken {
+  /**
+   * Получает token из Cookie
+   * @return string
+   */
   static function get() {
     if (!array_key_exists('token', $_COOKIE)) {
       return '';
@@ -14,6 +18,11 @@ class AuthToken {
     return $_COOKIE['token'];
   }
 
+  /**
+   * Декодирует значение токена
+   * @param string $token Значение токена
+   * @return string
+   */
   static function decode(string $token) {
     if (!$token) {
       return null;

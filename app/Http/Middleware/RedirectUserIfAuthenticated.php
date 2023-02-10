@@ -10,7 +10,7 @@ use App\Models\Student;
 class RedirectUserIfAuthenticated
 {
     /**
-     * Handle an incoming request.
+     * Перенаправление пользователя со страницы авторизации, если тот зарегистрирован
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next

@@ -1,4 +1,9 @@
 class Cookie {
+  /**
+   * Получение срока истечения cookie
+   * @param {number} hours Часы
+   * @returns {string}
+   */
   _getExp(hours) {
     const date = new Date();
 
@@ -7,12 +12,23 @@ class Cookie {
     return "; expires=" + date.toUTCString();
   }
 
+  /**
+   * Добавление cookie
+   * @param {string} name Название
+   * @param {string} value Значение
+   * @param {number} hours Время
+   */
   set(name, value, hours) {
     const exp = this._getExp(hours);
 
     document.cookie = `${name}=${value}${exp}; path=/`;
   }
 
+  /**
+   * Получение значения cookie
+   * @param {string} name Название
+   * @returns {string}
+   */
   get(name) {
     const nameEQ = `${name}=`;
     const list = document.cookie.split(";");
@@ -30,6 +46,10 @@ class Cookie {
     return "";
   }
 
+  /**
+   * Удаление cookie
+   * @param {string} name Название
+   */
   remove(name) {
     document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   }

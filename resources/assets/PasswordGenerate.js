@@ -8,6 +8,10 @@ class PasswordGenerate {
     ];
   }
 
+  /**
+   * Получение случайного символа
+   * @returns {string}
+   */
   _getRandomCharacter() {
     const lenContains = this.contains.length;
     const randomIndex = Math.floor(Math.random() * (lenContains - 1));
@@ -15,6 +19,10 @@ class PasswordGenerate {
     return this.contains[randomIndex];
   }
 
+  /**
+   * Генерация пароля по заданной длине
+   * @returns {string}
+   */
   init() {
     let res = "";
 

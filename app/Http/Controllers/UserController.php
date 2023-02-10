@@ -11,6 +11,10 @@ use App\Helpers\DataRules;
 
 class UserController extends Controller
 {
+    /**
+     * Отображение страницы пользователя
+     * @param {string} $id Идентификатор пользователя
+     */
     public function profileRender(string $id) {
         $userIdFromToken = AuthToken::getUserId();
         $findStudent = Student::findOrFail($id);
@@ -19,6 +23,10 @@ class UserController extends Controller
         return view('profile', ['user' => $findStudent, 'isGuest' => $isGuest]);
     }
 
+    /**
+     * Изменение данных пользователя
+     * @param {string} $id Идентификатор пользователя
+     */
     public function editOne(Request $req, string $id) {
         if (!$req->isAuthenticated) {
             return response(['message' => 'Для выполнения следующей операции необходимо авторизоваться', 'status' => 401], 401)
@@ -37,6 +45,7 @@ class UserController extends Controller
                 ->header('Content-Type', 'application/json');
         }
 
+        // Валидация данных
         $req->validate(
             [
                 'email' => DataRules::EMAIL['optional'],
@@ -70,10 +79,12 @@ class UserController extends Controller
             ]
         );
 
+        // Берем только те значения, которые не равны null
         $editedFields = array_filter($req->input(), function($value) {
             return $value;
         });
 
+        // Шифруем пароль, если он приходит
         if ($req->input('password')) {
             $hashPassword = Hash::make($req->input('password'), ['rounds' => 12]);
             $editedFields = array_merge($editedFields, ['password' => $hashPassword]);
@@ -85,6 +96,10 @@ class UserController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
+    /**
+     * Получение пользователя из базы данных
+     * @param {string} $id Идентификатор пользователя
+     */
     public function getOne(Request $req, string $id) {
         $findStudent = Student::find($id);
         $resData = [
@@ -96,6 +111,10 @@ class UserController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
+    /**
+     * Удаление данных пользователя из базы данных
+     * @param {string} $id Идентификатор пользователя
+     */
     public function deleteOne(Request $req, string $id) {
         if (!$req->isAuthenticated) {
             return respone(['message' => 'Для выполнения следующей операции необходимо авторизоваться', 'status' => 401], 401)

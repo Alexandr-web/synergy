@@ -2,6 +2,7 @@ import Cookie from "../Cookie";
 import Location from "../Location";
 import Element from "../Element";
 
+// Отправка запроса на удаление данных пользователя
 (function () {
   const btn = document.querySelector(".js-remove-btn");
 
@@ -16,6 +17,7 @@ import Element from "../Element";
       const token = cookie.get("token");
       const userId = location.getIdFromPathName("profile");
 
+      // Показываем лоадер
       textBtn.setText();
       spinner.show();
 
@@ -31,10 +33,12 @@ import Element from "../Element";
       })
         .then((data) => data.json())
         .then(({ status, message, }) => {
+          // Скрываем лоадер
           spinner.hide();
           textBtn.setText(message);
 
           if (status === 200) {
+            // Удаляем токен пользователя и перенаправляем его на страницу входа
             new Promise((resolve) => {
               resolve(cookie.remove("token"));
             }).then(() => location.push("/auth/login"));

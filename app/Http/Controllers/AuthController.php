@@ -12,7 +12,9 @@ use App\Helpers\DataRules;
 
 class AuthController extends Controller
 {
+    // Добавление пользователя в базу данных
     public function registraiton(Request $req) {
+        // Валидация данных
         $req->validate(
             [
                 'email' => DataRules::EMAIL['required'],
@@ -56,6 +58,7 @@ class AuthController extends Controller
             'passport-number' => $userData['passport-number'],
         ])->first();
 
+        // Создание пользователя, если такого же не существует
         if ($equalUser) {
             return response(['message' => 'Такой пользователь уже существует!', 'status' => 409], 409)
                 ->header('Content-Type', 'application/json');
@@ -67,7 +70,9 @@ class AuthController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
+    // Создание токена для хранения id пользователя
     public function login(Request $req) {
+        // Валидация данных
         $req->validate(
             [
                 'email' => ['required', 'max: 40'],
@@ -94,8 +99,10 @@ class AuthController extends Controller
                 ->header('Content-Type', 'application/json');
         }
 
+        // Создание токена пользователя
         $secret = env('SECRET');
         $userId = $findUser->id;
+        // На 1 час
         $expiration = time() + 3600;
         $issuer = env('HOST');
         $token = Token::create($userId, $secret, $expiration, $issuer);

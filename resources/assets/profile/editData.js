@@ -3,6 +3,7 @@ import Cookie from "../Cookie";
 import Form from "../Form";
 import passwordGenerate from "../helpers/passwordGenerateInDOM";
 
+// Отправка запроса на изменение данных пользователя
 (function () {
   const form = document.querySelector(".js-form");
 
@@ -18,6 +19,8 @@ import passwordGenerate from "../helpers/passwordGenerateInDOM";
 
       const token = new Cookie().get("token");
       const userId = location.getIdFromPathName("profile");
+
+      // Собираем данные формы
       const fd = [...inputs].reduce((acc, input) => {
         const name = input.name;
         let value = input.value;
@@ -33,6 +36,7 @@ import passwordGenerate from "../helpers/passwordGenerateInDOM";
         return acc;
       }, {});
 
+      // Данные запроса
       const reqData = {
         method: "PUT",
         body: JSON.stringify(fd),
