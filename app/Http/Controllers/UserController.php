@@ -60,6 +60,9 @@ class UserController extends Controller
                 'password' => DataRules::PASSWORD['optional'],
                 'birth-date' => DataRules::BIRTH_DATE['required'],
                 'sex' => DataRules::SEX['required'],
+                'hobby' => DataRules::HOBBY['optional'],
+                'city' => DataRules::HOBBY['optional'],
+                'favorite-planet' => DataRules::HOBBY['optional']
             ],
             [
                 'email.max' => DataRules::EMAIL['errors']['max'],
@@ -78,6 +81,14 @@ class UserController extends Controller
                 'sex' => DataRules::SEX['errors']['required'],
             ]
         );
+
+        // Ищем пользователя с такими же данными
+        $equalStudent = Student::where('email', $findStudent['email'])->first();
+
+        if ($equalStudent && $equalStudent['id'] !== $findStudent['id']) {
+            return response(['message' => 'Пользователь с такой эл. почтой уже существует', 'status' => 409], 409)
+                ->header('Content-Type', 'application/json');
+        }
 
         // Берем только те значения, которые не равны null
         $editedFields = array_filter($req->input(), function($value) {

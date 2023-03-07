@@ -45,25 +45,22 @@ class AuthController extends Controller
                 'passport-number.max' => DataRules::PASSPORT_NUMBER['errors']['max'],
                 'passport-number.min' => DataRules::PASSPORT_NUMBER['errors']['min'],
                 'password.required' => DataRules::PASSWORD['errors']['required'],
-                'password.min' => DataRules::PASSWORD['errors']['min'],
+                'password.min' => DataRules::PASSWORD['errors']['min']
             ]
         );
 
         $hashPassword = Hash::make($req->input('password'), ['rounds' => 12]);
         $userData = array_merge($req->input(), ['password' => $hashPassword]);
         
-        $equalUser = Student::where([
-            'email' => $userData['email'],
-            'passport-series' => $userData['passport-series'],
-            'passport-number' => $userData['passport-number'],
-        ])->first();
+        // Ищем пользователя с такими же данными
+        $equalUser = Student::where('email', $userData['email'])->first();
 
-        // Создание пользователя, если такого же не существует
         if ($equalUser) {
-            return response(['message' => 'Такой пользователь уже существует!', 'status' => 409], 409)
+            return response(['message' => 'Пользователь с такой эл. почтой уже существует!', 'status' => 409], 409)
                 ->header('Content-Type', 'application/json');
         }
 
+        // Создаем нового, если он уникальный
         Student::create($userData);
 
         return response(['message' => 'Студент создан', 'status' => 200], 200)
@@ -75,13 +72,14 @@ class AuthController extends Controller
         // Валидация данных
         $req->validate(
             [
-                'email' => ['required', 'max: 40'],
-                'password' => ['required', 'min: 6']
+                'email' => DataRules::EMAIL['required'],
+                'password' => DataRules::PASSWORD['required']
             ],
             [
-                'email.required' => 'Эл. почта является обязательной для заполнения',
-                'password.required' => 'Пароль является обязательным для заполнения',
-                'password.min' => 'Пароль должен содержать минимум 6 символов'
+                'email.required' => DataRules::EMAIL['errors']['required'],
+                'email.max' => DataRules::EMAIL['errors']['max'],
+                'password.required' => DataRules::PASSWORD['errors']['required'],
+                'password.min' => DataRules::PASSWORD['errors']['min']
             ]
         );
 

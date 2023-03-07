@@ -2,6 +2,24 @@
 namespace App\Helpers;
 
 class DataRules {
+  public const FAVORITE_PLANET = [
+    'required' => [],
+    'optional' => ['nullable'],
+    'errors' => []
+  ];
+
+  public const HOBBY = [
+    'required' => [],
+    'optional' => ['nullable'],
+    'errors' => []
+  ];
+
+  public const CITY = [
+    'required' => [],
+    'optional' => ['nullable'],
+    'errors' => []
+  ];
+
   public const URL = [
     'required' => [],
     'optional' => ['nullable', 'url'],

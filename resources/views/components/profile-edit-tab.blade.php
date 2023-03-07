@@ -1,7 +1,7 @@
 <div>
     <form class="js-form">
         <div class="d-flex flex-column">
-          <div class="row mb-5">
+          <div class="row">
             <div class="row">
               <h3>Общее</h3>
               <div class="form-group col">
@@ -74,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-5">
           <h3>Контакты</h3>
           <div class="form-group row mb-2">
             <label for="stackoverflow-url" class="col-sm-2 col-form-label">Stackoverflow</label>
@@ -98,11 +98,35 @@
             </div>
           </div>
         </div>
+        <div class="row mt-5">
+          <h3>Анкета</h3>
+          <div class="form-group row mb-2">
+            <label for="city" class="col-sm-2 col-form-label">Город, в котором родились</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control js-input" id="city" name="city" value="{{ $user['city'] }}" placeholder="Написать город">
+              <div class="invalid-feedback js-error" data-error="city"></div>
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label for="hobby" class="col-sm-2 col-form-label">Хобби</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control js-input" id="hobby" name="hobby" value="{{ $user['hobby'] }}" placeholder="Написать хобби">
+              <div class="invalid-feedback js-error" data-error="hobby"></div>
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label for="favorite-planet" class="col-sm-2 col-form-label">Любимая планета</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control js-input" id="favorite-planet" name="favorite-planet" value="{{ $user['favorite-planet'] }}" placeholder="Написать любимую планету">
+              <div class="invalid-feedback js-error" data-error="favorite-planet"></div>
+            </div>
+          </div>
+        </div>
         <div class="d-flex justify-content-center mt-5">
           <button type="submit" class="btn btn-primary d-flex align-items-center">
             <div class="spinner-border text-light spinner-border-sm d-none js-btn-spinner" role="status"></div>
             <span class="sr-only js-btn-text">Редактировать</span>
           </button>
         </div>
-      </form>
+    </form>
 </div>

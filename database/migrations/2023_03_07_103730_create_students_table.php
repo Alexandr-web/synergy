@@ -29,6 +29,9 @@ return new class extends Migration
             $table->integer('passport-series');
             $table->integer('passport-number');
             $table->string('password');
+            $table->string('city')->default('');
+            $table->string('hobby')->default('');
+            $table->string('favorite-planet')->default('');
         });
     }
 
