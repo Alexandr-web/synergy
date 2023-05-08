@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\AuthToken;
 use App\Helpers\DataRules;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -89,12 +90,16 @@ class UserController extends Controller
             return response(['message' => 'Пользователь с такой эл. почтой уже существует', 'status' => 409], 409)
                 ->header('Content-Type', 'application/json');
         }
+        
+        // Заменяем значения полей с типом NULL на пустую строку
+        $editedFields = array_map(function($item) {
+            if (gettype($item) === 'NULL') {
+                $item = '';
+            }
 
-        // Берем только те значения, которые не равны null
-        $editedFields = array_filter($req->input(), function($value) {
-            return $value;
-        });
-
+            return $item;
+        }, $req->input());
+        
         // Шифруем пароль, если он приходит
         if ($req->input('password')) {
             $hashPassword = Hash::make($req->input('password'), ['rounds' => 12]);

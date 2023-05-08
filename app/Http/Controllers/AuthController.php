@@ -97,10 +97,9 @@ class AuthController extends Controller
                 ->header('Content-Type', 'application/json');
         }
 
-        // Создание токена пользователя
+        // Создание токена пользователя на 1 час
         $secret = env('SECRET');
         $userId = $findUser->id;
-        // На 1 час
         $expiration = time() + 3600;
         $issuer = env('HOST');
         $token = Token::create($userId, $secret, $expiration, $issuer);
